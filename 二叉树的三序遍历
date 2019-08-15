@@ -1,0 +1,19 @@
+public List<Integer> preorderTraversal(TreeNode root) {
+		List<Integer> res=new ArrayList<>();
+		helper(root,res);
+		return res;
+	}
+	
+	public void helper(TreeNode root, List<Integer> res){
+		if(root!=null) {
+			res.add(root.val);//先序遍历
+			if(root.left!=null) {
+				helper(root.left,res);
+			}
+      //res.add(root.val);此句放在这是中序遍历
+			if(root.right!=null) {
+				helper(root.right,res);
+			}
+      //res.add(root.val);此句放在这是后序遍历
+		}
+	}
