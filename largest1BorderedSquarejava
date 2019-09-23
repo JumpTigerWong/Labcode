@@ -1,0 +1,117 @@
+public int largest1BorderedSquare(int[][] grid) {
+		int width=0;
+		int length=0;
+		int res=0;
+		for(int i=0;i<grid.length;i++) {
+			for(int j=0;j<grid[0].length;j++) {
+				if(grid[i][j]==1) {
+					
+					for(int m=i;m<grid.length;m++) {
+						if(grid[m][j]==0) {
+							break;
+						}else {
+							width++;
+						}
+					}
+					
+					System.out.println(width);
+					for(int n=j;n<grid[0].length;n++) {
+						if(grid[i][n]==0) {
+							break;
+						}else {
+							length++;
+						}
+					}
+					System.out.println(length);
+					int Maxlen=Math.min(width, length);//确定可能的边长
+					
+					while(Maxlen!=0) {
+						boolean breakOrNot=false;
+						boolean flagWidth=false;
+						boolean flagLength=false;
+						
+						for(int x=i;x<i+Maxlen;x++) {
+							if(grid[x][j+Maxlen-1]==0) {
+								breakOrNot=true;
+								break;
+							}
+						}
+						if(!breakOrNot) {
+							flagWidth=true;
+							breakOrNot=false;
+						}
+						
+						for(int y=j;y<j+Maxlen;y++) {
+							if(grid[i+Maxlen-1][y]==0) {
+								breakOrNot=true;
+								break;
+							}
+						}
+						if(!breakOrNot) {
+							flagLength=true;
+							breakOrNot=false;
+						}
+						
+						if(flagWidth&&flagLength) {
+							res=Math.max(res, Maxlen*Maxlen);
+							break;
+						}else {
+							Maxlen--;
+						}
+					}
+					width=0;
+					length=0;
+				}
+			}
+		}
+		return res;
+	}
+
+******************************************************************************************************************************
+大佬4ms的代码
+
+public int largest1BorderedSquare(int[][] grid) {
+        int m=grid.length,n=grid[0].length;
+        int maxlen=0,curlen=0;
+        boolean flag1,flag2;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(grid[i][j]==1){
+                    //满足初始条件才搜索
+                    flag1=true;
+                    flag2=true;
+                    curlen=maxlen;
+                    while(i+curlen<m&&j+curlen<n){
+                        //非常关键！！！！
+                        flag2=true;
+                        //左下
+                        for(int r=i;r<=i+curlen;r++){
+                            if(grid[r][j]==0) {flag1=false;break;}
+                        }
+                        if(!flag1) break;
+                        //上->
+                        for(int c=j;c<=j+curlen;c++){
+                            if(grid[i][c]==0){flag1=false;break;}
+                        }
+                        if(!flag1) break;
+                        //右下
+                        for(int r=i;r<=i+curlen;r++){
+                            if(grid[r][j+curlen]==0){flag2=false;curlen++;break;}
+                        }
+                        if(!flag2) continue;
+                        //下->
+                        for(int c=j;c<=j+curlen;c++){
+                            if(grid[i+curlen][c]==0){flag2=false;curlen++;break;}
+                        }
+                        if(!flag2) continue;
+                        curlen++;
+                        maxlen=curlen;
+                    }
+                    
+                }
+
+            }
+        }
+        return maxlen*maxlen;
+        
+    }
