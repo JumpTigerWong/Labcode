@@ -4,7 +4,7 @@ class Solution{
         var temp=n
         while temp>0{
             temp=temp/5
-            res+=n
+            res+=temp
         }
         return res
     }
